@@ -24,6 +24,10 @@
       </div>
 
       <div>
+        <input type="hidden" id="board_id_field" name="board_id" value="<%= @the_board.id %>">
+      </div>
+
+      <div>
         <button>Add post</button>
       </div>
     </form>
@@ -40,9 +44,44 @@
   <th>Body</th>
   <th>Posted on</th>
   <th>Expires on</th>
+
+  <% active_posts = [] %>
+  <% expired_posts = [] %>
+  <% list_of_posts = Post.all %>
+  <% matching_posts = Post.where({ board_id: @the_board.id }).order({ expires_on: :asc }) %>
+  <% matching_posts.each do |a_post| %>
+    <% if a_post.expires_on < Date.today %>
+      <% expired_posts.push(a_post) %>
+    <% else %>
+      <% active_posts.push(a_post) %>
+    <% end%>
+  <% end %>
+  <% active_posts.each do |a_post| %>
+    <tr>
+      <td><%= a_post.title %></td>
+      <td><%= a_post.body %></td>
+      <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
+      <td><%= a_post.expires_on.strftime("%b %e, %Y") %></td>
+    </tr>
+  <% end%>
 </table>
 
 
 <hr>
 
 <h2>Expired posts</h2>
+<table border="1">
+  <th>Title</th>
+  <th>Body</th>
+  <th>Posted on</th>
+  <th>Expired on</th>
+
+  <% expired_posts.each do |a_post| %>
+    <tr>
+      <td><%= a_post.title %></td>
+      <td><%= a_post.body %></td>
+      <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
+      <td><%= a_post.expires_on.strftime("%b %e, %Y") %></td>
+    </tr>
+  <% end%>
+</table>

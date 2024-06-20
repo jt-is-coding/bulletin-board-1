@@ -3,7 +3,7 @@
     <h1>
       <%= @the_board.name %>
     </h1>
-
+    <div> <%= alert %></div>
     <hr>
 
     <h2>Add a new post</h2>
@@ -24,7 +24,7 @@
       </div>
 
       <div>
-        <input type="hidden" id="board_id_field" name="board_id" value="<%= @the_board.id %>">
+        <input type="hidden" id="board_id_field" name="query_board_id" value="<%= @the_board.id %>">
       </div>
 
       <div>
